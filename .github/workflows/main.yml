@@ -1,0 +1,31 @@
+name: Python Project Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check Python syntax
+        run: python -m compileall streamlit_app.py
+
+      - name: Check required files
+        run: |
+          test -f streamlit_app.py
+          test -f requirements.txt
+          test -f nn_model.pkl
+          test -f scaler.pkl
+          test -f cleaned_songs.csv
